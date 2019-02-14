@@ -23,6 +23,8 @@ $app->get('/', function() {
 });
 
 $app->get('/admin', function() {
+
+	User::verifyLogin();
     
 	$page = new PageAdmin();
 
