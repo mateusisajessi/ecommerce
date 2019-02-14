@@ -15,7 +15,7 @@ $app->config('debug', true);
 
 $app->get('/', function() {
 
-	User::verifyLogin();
+	// User::verifyLogin();
     
 	$page = new Page();
 
