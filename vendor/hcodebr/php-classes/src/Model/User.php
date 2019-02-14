@@ -115,7 +115,7 @@ class User extends Model {
 		));
 	}
 
-	public static function getForgot($email , $inadmin = true){
+	public static function getForgot($email){
 
 		$sql = new Sql();
 
