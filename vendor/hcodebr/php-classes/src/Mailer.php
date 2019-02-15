@@ -7,7 +7,7 @@ use Rain\Tpl;
 class Mailer {
 
 	const USERNAME = "mateus.isajessi@gmail.com";
-	const PASSWORD = "xxxxxxx";
+	const PASSWORD = "88452535";
 	const NAME_FROM = "Hcode Store";
 
 	private $mail;
@@ -15,12 +15,12 @@ class Mailer {
 	public function __construct($toAddress, $toName, $subject, $tplName, $data = array()){
 
 		$config = array(
-			"tpl_dir"       => $_SERVER["DOCUMENT_ROOT"]."/views/email/",
-			"cache_dir"     => $_SERVER["DOCUMENT_ROOT"]."/views-cache/",
-			"debug"         => false
+			"tpl_dir"=>$_SERVER["DOCUMENT_ROOT"]."/views/email/",
+			"cache_dir"=>$_SERVER["DOCUMENT_ROOT"]."/views-cache/",
+			"debug"=>false
 		);
 
-		Tpl::configure( $config );
+		Tpl::configure($config);
 
 		$tpl = new Tpl;
 
@@ -31,7 +31,7 @@ class Mailer {
 		$html = $tpl->draw($tplName, true);
 
 		//Create a new PHPMailer instance
-		$this->$mail = new PHPMailer\PHPMailer\PHPMailer();
+		$this->mail = new \PHPMailer();
 
 		//Tell PHPMailer to use SMTP
 		$this->mail->isSMTP();
@@ -70,14 +70,14 @@ class Mailer {
 		// $this->mail->addReplyTo('replyto@example.com', 'First Last');
 
 		//Set who the message is to be sent to
-		$this->mail->addAddress($toAddres], $toName);
+		$this->mail->addAddress($toAddress, $toName);
 
 		//Set the subject line
 		$this->mail->Subject = $subject;
 
 		//Read an HTML message body from an external file, convert referenced images to embedded,
 		//convert HTML into a basic plain-text alternative body
-		$this->mail->msgHTML();
+		$this->mail->msgHTML($html);
 
 		//Replace the plain text body with one created manually
 		$this->mail->AltBody = 'This is a plain-text message body';
@@ -90,19 +90,19 @@ class Mailer {
 		//Function to call which uses the PHP imap_*() functions to save messages: https://php.net/manual/en/book.imap.php
 		//You can use imap_getmailboxes($imapStream, '/imap/ssl') to get a list of available folders or labels, this can
 		//be useful if you are trying to get this working on a non-Gmail IMAP server.
-		function save_mail($this->mail)
-		{
-		    //You can change 'Sent Mail' to any other folder or tag
-		    $path = "{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail";
+		// function save_mail($this->mail)
+		// {
+		//     //You can change 'Sent Mail' to any other folder or tag
+		//     $path = "{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail";
 
-		    //Tell your server to open an IMAP connection using the same username and password as you used for SMTP
-		    $imapStream = imap_open($path, $this->mail->Username, $this->mail->Password);
+		//     //Tell your server to open an IMAP connection using the same username and password as you used for SMTP
+		//     $imapStream = imap_open($path, $this->mail->Username, $this->mail->Password);
 
-		    $result = imap_append($imapStream, $path, $this->mail->getSentMIMEMessage());
-		    imap_close($imapStream);
+		//     $result = imap_append($imapStream, $path, $this->mail->getSentMIMEMessage());
+		//     imap_close($imapStream);
 
-		    return $result;
-		}
+		//     return $result;
+		// }
 	}
 
 	public function send(){
