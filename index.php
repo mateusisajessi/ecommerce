@@ -219,6 +219,8 @@ $app->post("/admin/forgot/reset", function(){
 
 	$user->get((int)$forgot["iduser"]);
 
+	$password = password_hash($_POST["password"], PASSWORD_DEFAULT, ["cost"=>12]);
+
 	$user->setPassword($_POST["password"]);
 
 	$page = new PageAdmin([
@@ -226,10 +228,8 @@ $app->post("/admin/forgot/reset", function(){
 		"footer"=>false
 	]);
 
-	$page->setTpl("forgot-reset-success", array(
-		"name"=>$user["desperson"],
-		"code"=>$_GET["code"]
-	));
+	$page->setTpl("forgot-reset-success");
+
 });
 
 $app->run();
